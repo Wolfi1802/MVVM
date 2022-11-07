@@ -1,3 +1,3 @@
 # MVVM BEISPIEL PROJEKT
-Ein kleines Beispiel wir man MVVM verwendet.
+Ein kleines Beispiel wie man MVVM verwendet.
 Ganz Klassisch werden Items in eine Liste geladen und mit diesen können Dinge angestellt werden.
