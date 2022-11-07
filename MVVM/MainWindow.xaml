@@ -1,0 +1,88 @@
+﻿<Window x:Class="MVVM.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MVVM"
+        mc:Ignorable="d"
+        Title="Anime" Height="400" Width="500" >
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <local:MainWindowViewModel x:Key="ViewModel"/>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <Binding Source="{StaticResource ViewModel}" x:Name="vm"/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="LightBlue">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Margin="5" Height="23" Content="Anime Name"/>
+            <Label Grid.Row="0" Grid.Column="1" Margin="5" Height="23" Content="{Binding SelectedItem.Name,FallbackValue='No Value Selected'}"/>
+            <Label Grid.Row="1" Grid.Column="0" Margin="5" Height="23" Content="Anime Description"/>
+            <Label Grid.Row="1" Grid.Column="1" Margin="5" Height="23" Content="{Binding SelectedItem.Description,FallbackValue='No Value Selected'}"/>
+            <Label Grid.Row="2" Grid.Column="0" Margin="5" Height="23" Content="Anime Season Count"/>
+            <Label Grid.Row="2" Grid.Column="1" Margin="5" Height="23" Content="{Binding SelectedItem.SeasonCount,FallbackValue='No Value Selected'}"/>
+            <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Height="23" Content="Save Selected Item into File" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    Command="{Binding SaveSelectedItem}" CommandParameter="{Binding SelectedItem}" IsEnabled="{Binding SaveButtonIsEnabled}"/>
+        </Grid>
+
+        <ListView Grid.Row="1" ItemsSource="{Binding AnimeItemsSource}" SelectedItem="{Binding SelectedItem}" SelectionMode="Single">
+            <ListView.View>
+                <GridView AllowsColumnReorder="False">
+
+                    <GridViewColumn x:Name="AnimeName" Header="Anime Name">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Margin="5" Height="23" Content="{Binding Name}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn x:Name="AnimeDescription" Header="Anime Description">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Margin="5" Height="23" Content="{Binding Description}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn x:Name="AnimeSeasonCount" Header="Anime Season Count">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Margin="5" Height="23" Content="{Binding SeasonCount}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+
+                    </GridViewColumn>
+
+                </GridView>
+            </ListView.View>
+
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Delete" Command="{Binding Delete}" CommandParameter="{Binding SelectedItem}"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
+        </ListView>
+    </Grid>
+</Window>
